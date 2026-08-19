@@ -17,17 +17,26 @@ npm install @jaco-tech/dsh-web-fetch-crw
 
 ## Configure
 
-Add to your DSH profile's `cordis.patch.yml`:
+### 1. Install the package
+
+```bash
+npm install @jaco-tech/dsh-web-fetch-crw
+```
+
+### 2. Add it to your DSH profile
+
+Edit `~/.dsh/profiles/web/cordis.patch.yml` (create it if it doesn't exist) and add:
 
 ```yaml
 - insert:
     - id: web-fetch-crw
       name: '@jaco-tech/dsh-web-fetch-crw'
       config:
+        # Required: point at your crw (Firecrawl-compatible) instance
         baseURL: 'http://your-crw-instance:3000'
 ```
 
-Optionally pin `ctx.web` to use this provider explicitly:
+If you have multiple fetch providers registered, pin `ctx.web` to use this one:
 
 ```yaml
 - replace:
@@ -35,6 +44,20 @@ Optionally pin `ctx.web` to use this provider explicitly:
       config:
         fetchProvider: crw
 ```
+
+### 3. Restart DSH
+
+Stop your running `dsh` process and start it again:
+
+```bash
+npx @deepseek-ai/dsh web
+```
+
+The plugin will be loaded automatically. The `web_fetch` tool in your agent will now use your crw instance.
+
+### 4. (Optional) Configure via the Web UI
+
+Once DSH is running, go to **Settings → Plugins** in the Web UI. You'll see a "web-fetch-crw" card where you can edit the `baseURL` without editing YAML files.
 
 ## How it works
 
