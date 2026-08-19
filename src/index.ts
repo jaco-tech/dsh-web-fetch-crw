@@ -159,7 +159,7 @@ const Config = z.object({
   baseURL: z.string().required(),
 });
 
-function apply(ctx: { web: { registerFetchProvider: (p: WebFetchProvider) => void } }, config: z.infer<typeof Config>): void {
+function apply(ctx: { web: { registerFetchProvider: (p: WebFetchProvider) => void } }, config: typeof Config): void {
   const current = () => config;
   ctx.web.registerFetchProvider(new CrwFetchProvider(() => current()));
 }
