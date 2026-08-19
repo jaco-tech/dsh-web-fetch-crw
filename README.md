@@ -2,9 +2,11 @@
 
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
 
-crw (Firecrawl-compatible) fetch provider plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
+[crw](https://github.com/us/crw) (Firecrawl-compatible) fetch provider plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
 
-Registers a `WebFetchProvider` into `ctx.web` so that the existing `web_fetch` model tool retrieves page content through your crw instance — which converts HTML to clean markdown. No auth, no API key.
+Registers a `WebFetchProvider` into `ctx.web` so that the existing `web_fetch` model tool retrieves page content through your [crw](https://github.com/us/crw) instance — which converts HTML to clean markdown. No auth, no API key.
+
+crw is a self-hosted web scraping and crawling service that implements the [Firecrawl](https://github.com/nicknisi/firecrawl) API. It provides a drop-in replacement for the Firecrawl `/v1/scrape` endpoint.
 
 ## Install
 
@@ -61,6 +63,10 @@ The existing `@deepseek-ai/dsh-tool-web` consumer calls `ctx.web.fetch()` — yo
 |---|---|
 | `available()` | Returns `true` when `baseURL` is a valid URL |
 | `fetch(request, signal?)` | `POST /v1/scrape` with `{ url, formats: ["markdown"] }`. Returns the scraped markdown as `kind: "text"` body (no double-conversion through turndown). |
+
+## Upstream
+
+This plugin communicates with [crw](https://github.com/us/crw) via its Firecrawl-compatible API (`POST /v1/scrape`). crw is a self-hosted web scraping and crawling service that renders pages (via Lightpanda or Chromium) and produces clean markdown. You need a running crw instance to use this plugin.
 
 ## Development
 
