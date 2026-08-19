@@ -1,6 +1,7 @@
 # dsh-web-fetch-crw
 
 [![dsh-plugin](https://img.shields.io/badge/dsh-plugin-blue)](https://github.com/topics/dsh-plugin)
+[![CI/CD](https://github.com/jaco-tech/dsh-web-fetch-crw/actions/workflows/ci.yml/badge.svg)](https://github.com/jaco-tech/dsh-web-fetch-crw/actions/workflows/ci.yml)
 
 [crw](https://github.com/us/crw) (Firecrawl-compatible) fetch provider plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
 
@@ -8,7 +9,9 @@ Registers a `WebFetchProvider` into `ctx.web` so that the existing `web_fetch` m
 
 crw is a self-hosted web scraping and crawling service that implements the [Firecrawl](https://github.com/nicknisi/firecrawl) API. It provides a drop-in replacement for the Firecrawl `/v1/scrape` endpoint.
 
-## Install
+## Status
+
+⚠️ **Not yet published to npm.** The CI/CD workflow builds on every push and publishes automatically when a `v*` tag is pushed. Once the first release is cut:
 
 ```bash
 npm install @jaco-tech/dsh-web-fetch-crw
@@ -68,14 +71,22 @@ The existing `@deepseek-ai/dsh-tool-web` consumer calls `ctx.web.fetch()` — yo
 
 This plugin communicates with [crw](https://github.com/us/crw) via its Firecrawl-compatible API (`POST /v1/scrape`). crw is a self-hosted web scraping and crawling service that renders pages (via Lightpanda or Chromium) and produces clean markdown. You need a running crw instance to use this plugin.
 
+## Release process
+
+```bash
+# Tag and push — the CI workflow builds and publishes to npm automatically
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+Requires the `NPM_TOKEN` secret to be set in the repository.
+
 ## Development
 
 ```bash
 npm install
 npm run build
 ```
-
-Published to npm as `@jaco-tech/dsh-web-fetch-crw`.
 
 ## License
 
