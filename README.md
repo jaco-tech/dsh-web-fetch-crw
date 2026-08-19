@@ -9,9 +9,7 @@ Registers a `WebFetchProvider` into `ctx.web` so that the existing `web_fetch` m
 
 crw is a self-hosted web scraping and crawling service that implements the [Firecrawl](https://github.com/nicknisi/firecrawl) API. It provides a drop-in replacement for the Firecrawl `/v1/scrape` endpoint.
 
-## Status
-
-⚠️ **Not yet published to npm.** The CI/CD workflow builds on every push and publishes automatically when a `v*` tag is pushed. Once the first release is cut:
+## Install
 
 ```bash
 npm install @jaco-tech/dsh-web-fetch-crw
