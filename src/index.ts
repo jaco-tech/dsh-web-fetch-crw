@@ -1,5 +1,6 @@
 import z from "@deepseek-ai/schemastery";
 import { WebError } from "@deepseek-ai/dsh-web";
+import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-settings";
 import type { Context } from "@deepseek-ai/cordis";
 import type { WebFetchProvider, WebFetchRequest, WebFetchResult } from "@deepseek-ai/dsh-web";
 
@@ -160,8 +161,15 @@ const Config = z.object({
   baseURL: z.string().required(),
 }) as unknown as z<Config>;
 
+/** Settings namespace for the DSH Web UI (Settings → Plugins). */
+const WEB_FETCH_CRW_SETTINGS_NAMESPACE = settingsNamespace("web-fetch-crw");
+
 function apply(ctx: Context, config: Config): void {
-  const current = () => config;
+  let current = () => config;
+  installSettingsSection(ctx, WEB_FETCH_CRW_SETTINGS_NAMESPACE, Config, config, {
+    setSource: (source) => { current = source; },
+    onChange: () => {},
+  });
   ctx.web.registerFetchProvider(new CrwFetchProvider(() => current()));
 }
 //#endregion
