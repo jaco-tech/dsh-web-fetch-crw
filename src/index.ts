@@ -1,5 +1,6 @@
 import z from "@deepseek-ai/schemastery";
 import { WebError } from "@deepseek-ai/dsh-web";
+import type { Context } from "@deepseek-ai/cordis";
 import type { WebFetchProvider, WebFetchRequest, WebFetchResult } from "@deepseek-ai/dsh-web";
 
 //#region crw response types
@@ -147,15 +148,19 @@ const name = "web-fetch-crw";
 /** The web seam this provider registers into. */
 const inject = ["web"];
 
-const Config = z.object({
-  /**
-   * Base URL of the crw service (without /v1/scrape suffix).
-   * Required — no default, you must configure your instance URL.
-   */
-  baseURL: z.string().required(),
-});
+/**
+ * Plugin configuration. `baseURL` is required (point at your crw instance).
+ */
+interface Config {
+  /** Base URL of the crw service (without /v1/scrape suffix). */
+  baseURL: string;
+}
 
-function apply(ctx, config) {
+const Config = z.object({
+  baseURL: z.string().required(),
+}) as unknown as z<Config>;
+
+function apply(ctx: Context, config: Config): void {
   const current = () => config;
   ctx.web.registerFetchProvider(new CrwFetchProvider(() => current()));
 }
