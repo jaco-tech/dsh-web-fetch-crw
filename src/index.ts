@@ -65,10 +65,10 @@ function mapCrwResponse(url: string, body: CrwScrapeResponse): WebFetchResult {
  * crw is a Firecrawl-compatible crawl/scrape service. No auth, no API key.
  */
 class CrwFetchProvider implements WebFetchProvider {
-  private readonly resolveOptions: () => CrwFetchProviderOptions;
+  readonly resolveOptions: () => { baseURL: string };
   readonly id = CRW_PROVIDER_ID;
 
-  constructor(resolveOptions: () => CrwFetchProviderOptions) {
+  constructor(resolveOptions: () => { baseURL: string }) {
     this.resolveOptions = resolveOptions;
   }
 
@@ -121,10 +121,6 @@ class CrwFetchProvider implements WebFetchProvider {
   }
 }
 
-export interface CrwFetchProviderOptions {
-  /** Base URL of the crw (Firecrawl-compatible) service. Must include port. */
-  baseURL: string;
-}
 //#endregion
 
 //#region plugin
@@ -159,7 +155,7 @@ const Config = z.object({
   baseURL: z.string().required(),
 });
 
-function apply(ctx: { web: { registerFetchProvider: (p: WebFetchProvider) => void } }, config: typeof Config): void {
+function apply(ctx, config) {
   const current = () => config;
   ctx.web.registerFetchProvider(new CrwFetchProvider(() => current()));
 }
