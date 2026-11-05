@@ -15,8 +15,12 @@ crw is a self-hosted web scraping and crawling service that implements the [Fire
 npm install @jaco-tech/dsh-web-fetch-crw
 ```
 
-Requires DeepSeek Harness 0.2.x (`@deepseek-ai/dsh-web` 0.2.0-rc.1 or later). DSH 0.1.x is no
-longer supported; use `@jaco-tech/dsh-web-fetch-crw@0.1` there.
+Requires DeepSeek Harness 0.2.1-rc.5. The peers are pinned exactly (`@deepseek-ai/dsh-web`
+`0.2.1-rc.5`, `@deepseek-ai/cordis` `~4.0.5`), like the first-party DSH web plugins: a range
+would let npm install a second dsh-web/cordis beside DSH's own, which shadows the framework.
+Every DSH bump therefore needs a release of this package with the peers re-pinned
+(`test/peer-pins.test.mjs` enforces the rule). DSH 0.1.x is no longer supported; use
+`@jaco-tech/dsh-web-fetch-crw@0.1` there.
 
 ## Configure
 

@@ -33,8 +33,8 @@
     "cordis-plugin"
   ],
   "peerDependencies": {
-    "@deepseek-ai/dsh-web": "^0.2.0-rc.1 || ^0.2.1-rc.5 || ^0.2.2-rc.1",
-    "@deepseek-ai/cordis": "~4.0.5 || ~4.1.0"
+    "@deepseek-ai/dsh-web": "0.2.1-rc.5",
+    "@deepseek-ai/cordis": "~4.0.5"
   },
   "dependencies": {
     "@deepseek-ai/schemastery": "~3.18.5 || ~3.19.0"
@@ -47,7 +47,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test test/smoke.test.mjs",
+    "test": "npm run build && node --test test/peer-pins.test.mjs test/smoke.test.mjs",
     "prepublishOnly": "tsc"
   }
 }
