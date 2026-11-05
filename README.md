@@ -15,6 +15,9 @@ crw is a self-hosted web scraping and crawling service that implements the [Fire
 npm install @jaco-tech/dsh-web-fetch-crw
 ```
 
+Requires DeepSeek Harness 0.2.x (`@deepseek-ai/dsh-web` 0.2.0-rc.1 or later). DSH 0.1.x is no
+longer supported; use `@jaco-tech/dsh-web-fetch-crw@0.1` there.
+
 ## Configure
 
 ### 1. Install the package
@@ -57,7 +60,7 @@ The plugin will be loaded automatically. The `web_fetch` tool in your agent will
 
 ### 4. (Optional) Configure via the Web UI
 
-Once DSH is running, go to **Settings → Plugins** in the Web UI. You'll see a "web-fetch-crw" card where you can edit the `baseURL` without editing YAML files.
+Once DSH is running, go to **Settings → Plugins** in the Web UI. You'll see a "web-fetch-crw" card where you can edit the `baseURL` without editing YAML files. `baseURL` is a volatile setting: the provider reads it on every fetch, so an edit applies without restarting DSH.
 
 ## How it works
 
@@ -96,8 +99,8 @@ This plugin communicates with [crw](https://github.com/us/crw) via its Firecrawl
 
 ```bash
 # Tag and push — the CI workflow builds and publishes to npm automatically
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.2.2
+git push origin v0.2.2
 ```
 
 Requires the `NPM_TOKEN` secret to be set in the repository.
@@ -107,6 +110,7 @@ Requires the `NPM_TOKEN` secret to be set in the repository.
 ```bash
 npm install
 npm run build
+npm test    # builds, then imports the built package against the installed DSH (hermetic)
 ```
 
 ## License
