@@ -15,11 +15,14 @@ crw is a self-hosted web scraping and crawling service that implements the [Fire
 npm install @jaco-tech/dsh-web-fetch-crw
 ```
 
-Requires DeepSeek Harness 0.2.1-rc.5. The peers are pinned exactly (`@deepseek-ai/dsh-web`
-`0.2.1-rc.5`, `@deepseek-ai/cordis` `~4.0.5`), like the first-party DSH web plugins: a range
-would let npm install a second dsh-web/cordis beside DSH's own, which shadows the framework.
-Every DSH bump therefore needs a release of this package with the peers re-pinned
-(`test/peer-pins.test.mjs` enforces the rule). DSH 0.1.x is no longer supported; use
+Requires DeepSeek Harness 0.2.1-rc.5. The tested DSH dependency set pins
+`@deepseek-ai/dsh-web` and `@deepseek-ai/dsh-settings` exactly at `0.2.1-rc.5`.
+`@deepseek-ai/cordis` is the deliberate exception: like the first-party DSH web plugins,
+this package declares the compatible patch range `~4.0.5`. A consumer lockfile could in
+principle resolve a different 4.0.x cordis patch and create a second framework copy; this
+plugin's one-shot install is verified against cordis 4.0.5. Every DSH bump therefore needs
+a release of this package with its framework peers re-pinned (`test/peer-pins.test.mjs`
+enforces their presence and pin form). DSH 0.1.x is no longer supported; use
 `@jaco-tech/dsh-web-fetch-crw@0.1` there.
 
 ## Configure
@@ -116,6 +119,24 @@ npm install
 npm run build
 npm test    # builds, then imports the built package against the installed DSH (hermetic)
 ```
+
+Verify a one-shot scratch install of DSH plus this package's `npm pack` tarball:
+
+```bash
+repo=$PWD
+scratch=$(mktemp -d)
+tarball=$(npm pack --pack-destination "$scratch" --silent)
+printf '%s\n' \
+  "{\"private\":true,\"dependencies\":{\"@deepseek-ai/dsh\":\"0.2.1-rc.5\",\"@jaco-tech/dsh-web-fetch-crw\":\"file:./$tarball\"}}" \
+  > "$scratch/package.json"
+(cd "$scratch" && npm install --no-audit --no-fund)
+node "$repo/test/installed-tree-identity.mjs" "$scratch"
+```
+
+The final check is hermetic (it only reads the installed tree). It requires exactly one
+installed copy each of `@deepseek-ai/dsh-web`,
+`@deepseek-ai/dsh-settings`, and `@deepseek-ai/cordis`, and requires
+`@deepseek-ai/cordis-plugin-group` to be present.
 
 ## License
 
