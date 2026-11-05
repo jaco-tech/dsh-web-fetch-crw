@@ -1,7 +1,6 @@
 import z from "@deepseek-ai/schemastery";
 import { WebError } from "@deepseek-ai/dsh-web";
-import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-settings";
-import type { Context } from "@deepseek-ai/cordis";
+import type { Context, Volatile } from "@deepseek-ai/cordis";
 import type { WebFetchProvider, WebFetchRequest, WebFetchResult } from "@deepseek-ai/dsh-web";
 
 //#region crw response types
@@ -151,26 +150,21 @@ const inject = ["web"];
 
 /**
  * Plugin configuration. `baseURL` is required (point at your crw instance).
+ * The field is volatile: DSH's settings plane updates it in place, and the
+ * provider reads it on every call, so an edit applies without a reload.
  */
 interface Config {
   /** Base URL of the crw service (without /v1/scrape suffix). */
-  baseURL: string;
+  baseURL: Volatile<string>;
 }
 
 const Config = z.object({
-  baseURL: z.string().required(),
-}) as unknown as z<Config>;
+  baseURL: z.string().required().volatile(),
+});
 
-/** Settings namespace for the DSH Web UI (Settings → Plugins). */
-const WEB_FETCH_CRW_SETTINGS_NAMESPACE = settingsNamespace("web-fetch-crw");
-
+/** Register the crw fetch provider with `ctx.web`. */
 function apply(ctx: Context, config: Config): void {
-  let current = () => config;
-  installSettingsSection(ctx, WEB_FETCH_CRW_SETTINGS_NAMESPACE, Config, config, {
-    setSource: (source) => { current = source; },
-    onChange: () => {},
-  });
-  ctx.web.registerFetchProvider(new CrwFetchProvider(() => current()));
+  ctx.web.registerFetchProvider(new CrwFetchProvider(() => ({ baseURL: config.baseURL.get() })));
 }
 //#endregion
 
