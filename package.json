@@ -1,7 +1,7 @@
 {
   "name": "@jaco-tech/dsh-web-fetch-crw",
   "description": "crw (Firecrawl-compatible) fetch provider for the DeepSeek Harness web capability seam (ctx.web). No auth, no API key.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publishConfig": {
     "access": "public"
   },
@@ -33,16 +33,16 @@
     "cordis-plugin"
   ],
   "peerDependencies": {
-    "@deepseek-ai/dsh-web": "0.2.1-rc.5",
-    "@deepseek-ai/cordis": "~4.0.5"
+    "@deepseek-ai/dsh-web": "0.2.2-rc.5",
+    "@deepseek-ai/cordis": "~4.1.0"
   },
   "dependencies": {
     "@deepseek-ai/schemastery": "~3.18.5 || ~3.19.0"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh": "0.2.1-rc.5",
-    "@deepseek-ai/dsh-web": "0.2.1-rc.5",
-    "@deepseek-ai/cordis": "~4.0.5",
+    "@deepseek-ai/dsh": "0.2.2-rc.5",
+    "@deepseek-ai/dsh-web": "0.2.2-rc.5",
+    "@deepseek-ai/cordis": "~4.1.0",
     "typescript": "^5.7.0"
   },
   "scripts": {
